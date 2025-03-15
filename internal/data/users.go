@@ -133,7 +133,7 @@ func (m UserModel) GetByEmail(email string) (*User, error) {
 	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
-			return nil, ErrRecordNotFound
+			return nil, ErrorRecordNotFound
 		default:
 			return nil, err
 		}
@@ -170,9 +170,9 @@ func (m UserModel) Update(user *User) error {
 	if err != nil {
 		switch {
 		case err.Error() == `pq: duplicate key value violates unique constraint "users_email_key"`:
-			return ErrDuplicateEmail
+			return ErrorDuplicateEmail
 		case errors.Is(err, sql.ErrNoRows):
-			return ErrEditConflict
+			return ErrorEditConflict
 		default:
 			return err
 		}
