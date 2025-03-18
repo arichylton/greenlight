@@ -6,6 +6,7 @@ import (
 	"flag"
 	"log/slog"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/arichylton/greenlight/internal/data"
@@ -15,6 +16,7 @@ import (
 
 const version = "1.0.0"
 
+// Update the config struct to hold the SMTP server settings.
 type config struct {
 	port int
 	env  string
@@ -24,11 +26,10 @@ type config struct {
 		maxIdleConns int
 		maxIdleTime  time.Duration
 	}
-
 	limiter struct {
+		enabled bool
 		rps     float64
 		burst   int
-		enabled bool
 	}
 	smtp struct {
 		host     string
@@ -38,12 +39,12 @@ type config struct {
 		sender   string
 	}
 }
-
 type application struct {
 	config config
 	logger *slog.Logger
 	models data.Models
 	mailer *mailer.Mailer
+	wg     sync.WaitGroup
 }
 
 func main() {
