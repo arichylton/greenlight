@@ -15,10 +15,11 @@ import (
 
 	"github.com/arichylton/greenlight/internal/data"
 	"github.com/arichylton/greenlight/internal/mailer"
+	"github.com/arichylton/greenlight/internal/vcs"
 	_ "github.com/lib/pq"
 )
 
-const version = "1.0.0"
+var version = vcs.Version()
 
 // Update the config struct to hold the SMTP server settings.
 type config struct {
