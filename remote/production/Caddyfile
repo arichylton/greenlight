@@ -1,0 +1,8 @@
+{
+        email arich212@gmail.com
+}
+
+137.184.118.243 {
+  respond /debug/* "Not Permitted" 403
+  reverse_proxy localhost:4000
+}
